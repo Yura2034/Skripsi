@@ -1,0 +1,539 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sekripsi/widgets/app_large_text.dart';
+import 'package:sekripsi/widgets/colors.dart';
+import 'package:sekripsi/gulma.dart';
+
+class HomePage extends StatefulWidget {
+  const HomePage({Key key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+
+
+  // ignore: deprecated_member_use
+  List <Container> daftarTanamanGulma = List();
+
+  var tumbuhan=[
+    {"nama": "Amaranthus hybridus L",
+      "gambar":"Amaranthus hybridus L.jpg",},
+    {"nama": "Impatiens balsamina L","gambar":"Impatiens balsamina L.jpg"},
+    {"nama": "Cleome viscosa L","gambar":"Cleome viscosa L.jpg"},
+    {"nama": "Ageratina riparia (Regel)","gambar":"Ageratina riparia (Regel) R.M.King & H.Rob.jpg"},
+    {"nama": "Ageratum conyzoides L","gambar":"Ageratum conyzoides L.jpg"},
+    {"nama": "Bidens pilosa L","gambar":"Bidens pilosa L.jpg"},
+    {"nama": "Austroepatorium inulifolium","gambar":"Austroepatorium inulifolium (Kunth) R.M.King & H.Rob.jpg"},
+    {"nama": "Crassocephalum crepidioides ","gambar":"Crassocephalum crepidioides (Benth.) S.Moore.jpg"},
+    {"nama": "Sphagneticola trilobata (L.) Pruski","gambar":"Sphagneticola trilobata (L.) Pruski.jpg"},
+    {"nama": "Ipomoea cairica (L.)","gambar":"Ipomoea cairica (L.) Sweet.jpg"},
+    {"nama": "Ipomoea indica (Burm.)","gambar":"Ipomoea indica (Burm.) Merr..jpg"},
+    {"nama": "Euphorbia heterophylla","gambar":"Euphorbia heterophylla L..jpg"},
+    {"nama": "Euphorbia hirta L.","gambar":"Euphorbia hirta L..jpg"},
+    {"nama": "Calliandra houstoniana","gambar":"Calliandra houstoniana var. calothyrsus (Meisn.) Barneby.jpg"},
+    {"nama": "Sida rhomboifolia L","gambar":"Sida rhomboifolia L.jpg"},
+    {"nama": "Lantana camara L","gambar":"Lantana camara L.jpg"},
+  ];
+
+  _buatlish()async{
+    for (var i = 0; i< tumbuhan.length; i++){
+      final tumbuhannya = tumbuhan [i];
+      final String gambar = tumbuhannya["gambar"];
+
+      daftarTanamanGulma.add(
+          Container(
+            padding:  const EdgeInsets.all(10.0),
+            child: Card(
+                child: Column(
+                children: [
+                  Hero(
+                    tag: tumbuhannya['nama'],
+                    child: Material(
+                      child:InkWell(
+                        onTap: ()=> Navigator.of(context).push(MaterialPageRoute(
+                            builder: (BuildContext context)=>Detail(nama: tumbuhannya['nama'], gambar: gambar))),
+                        child: Image.asset("assets/$gambar",height: 100.0, width:100.0,fit: BoxFit.cover,),
+                      ) ,
+                    ),
+                ),
+                  const Padding(padding: EdgeInsets.all(10.0),),
+                  Text(tumbuhannya['nama'], style: const TextStyle(fontSize: 15.0),),
+                ],
+              )
+            ),
+          )
+      );
+    }
+  }
+
+  @override
+  void initState() {
+    _buatlish();
+    // TODO: implement initState
+    super.initState();
+  }
+  @override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text ("Tanaman Gulma",
+            style: TextStyle(
+                color: Colors.white)),
+      ),
+      body: GridView.count(
+        crossAxisCount: 2,
+        children: daftarTanamanGulma,
+      ),
+    );
+  }
+}
+
+
+class Detail extends StatelessWidget {
+  const Detail({Key key, this.nama, this.gambar}) : super(key: key);
+  final String nama;
+  final String gambar;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: ListView(
+        children: <Widget>[
+         Container(
+           height: 300,
+           child: Hero(tag: nama,
+           child: Material(
+               child: InkWell(
+                 child: Image.asset("assets/$gambar",fit: BoxFit.contain,),
+           ),
+           ),
+         ),
+         ),
+
+
+          Bagiannama(nama: nama,),
+          Keterangan(),
+          //
+        ],
+      ),
+    );
+  }
+}
+
+class Bagiannama extends StatelessWidget {
+  final String nama;
+  const Bagiannama({Key key, this.nama}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(09.0),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(nama,
+                  style: const TextStyle(
+                      fontSize: 20.0,
+                      color: Colors.green),
+                ),
+              ],
+            ),
+          ),
+          Row(
+            children: const [
+              Icon(
+               Icons.mic, size: 30.0, color: Colors.green,
+
+              )
+            ],
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class Keterangan extends StatelessWidget {
+
+  const Keterangan({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(10.0),
+      child: const Card(
+       child: Padding(
+         padding: EdgeInsets.all(8.0),
+         child: Text ("data" , style: TextStyle (fontSize: 18.0),
+         ),
+        ),
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// class HomePage extends StatefulWidget {
+//   const HomePage ({Key key}) : super(key: key);
+//
+//   @override
+//   State<HomePage> createState() => _State();
+// }
+// class _State extends State<HomePage>
+// with SingleTickerProviderStateMixin{
+//
+//   TabController tabController;
+//   @override
+//   void initState (){
+//     tabController = TabController(length: 2, vsync:this);
+//   }
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//          title : const Text('GULMA',),
+//         bottom: TabBar(
+//           controller: tabController,
+//           isScrollable: true,
+//           labelPadding: const EdgeInsets.only(left: 20, right:20),
+//           tabs:const <Widget>[
+//             Tab (text :'Tanaman Obat' ),
+//             Tab(text: 'Tanaman Gulma'),
+//           ],
+//         ),
+//       ),
+//       body: TabBarView(
+//         controller: tabController,
+//           children:[
+//             Text ('Tab Tanaman Obat'),
+//             Text('tab Tanaman Gulma'),
+//           ],
+//       ),
+//     );
+//   }
+// }
+//
+//
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// class HomePage extends StatefulWidget {
+//   const HomePage ({Key key}) : super(key: key);
+//
+//   @override
+//   State<HomePage> createState() => _State();
+// }
+// class _State extends State<HomePage>
+// with SingleTickerProviderStateMixin{
+//
+//   TabController tabController;
+//   void initState (){
+//     tabController = TabController(length: 2, vsync:this);
+//   }
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//          title : const Text('GULMA',),
+//         bottom: TabBar(
+//           controller: tabController,
+//           isScrollable: true,
+//           labelPadding: const EdgeInsets.only(left: 20, right:20),
+//           tabs:const <Widget>[
+//             Tab (text :'Tanaman Obat' ),
+//             Tab(text: 'Tanaman Gulma'),
+//           ],
+//         ),
+//       ),
+//       body: TabBarView(
+//         controller: tabController,
+//           children:[
+//             Text ('Tab Tanaman Obat'),
+//             Text('tab Tanaman Gulma'),
+//           ],
+//       ),
+//     );
+//   }
+// }
+//
+//
+//
+//
+
+
+
+
+
+//     with TickerProviderStateMixin{
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     TabController _tabController = TabController(length: 2, vsync: this);
+//     return Scaffold(
+//       body: Column(
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         children: [
+//           Container(
+//             padding: const EdgeInsets.only(top: 60, left: 20),
+//             child: Row(
+//               children: [
+//                 Icon(Icons.menu,size: 30, color: Colors.black,),
+//                 Expanded(child: Container()),
+//                 Container(
+//                   margin: const EdgeInsets.only(right: 20),
+//                   width: 50,
+//                   height: 50,
+//
+//                   decoration: BoxDecoration(
+//                     borderRadius: BorderRadius.circular(10),
+//                     color: Colors.grey.withOpacity(0.5),
+//                   ),
+//                 ),
+//
+//               ],
+//             ),
+//           ),
+//           SizedBox(height: 30,),
+//           Container(
+//             margin: const EdgeInsets.only(left: 20),
+//             child:  AppLArgeText(text: "TANAMAN GULMA"),
+//           ),
+//           SizedBox(height: 30,),
+//           // Tab Bar Atas
+//           Container(
+//             child: Align(
+//               alignment: Alignment.centerLeft,
+//               child: TabBar(
+//                 labelPadding: const EdgeInsets.only(left: 20, right: 20),
+//                 controller: _tabController,
+//                 labelColor: Colors.black,
+//                 unselectedLabelColor: Colors.grey,
+//                 isScrollable: true,
+//                 indicatorSize: TabBarIndicatorSize.label,
+//                 indicator: CircleTabIndicator(color:AppColors.mainColor, radius: 4 ),
+//                 tabs: const [
+//                   Tab(text: "Gulma "),
+//                   Tab(text: "Galeri"),
+//                 ],
+//               ),
+//             ),
+//           ),
+//           Container(
+//             padding: const EdgeInsets.only(left: 20),
+//             height: 300,
+//             width: double.maxFinite,
+//             child: TabBarView(
+//               controller: _tabController,
+//               children: [
+//                 ListView.builder (
+//                   itemCount:3,
+//                   scrollDirection:Axis.horizontal ,
+//                   itemBuilder: (BuildContext context, int index) {
+//                     return Container(
+//                       margin: const EdgeInsets.only(right: 15, top: 10),
+//                       width: 200,
+//                       height: 300,
+//                       decoration: BoxDecoration(
+//                         borderRadius: BorderRadius.circular(20),
+//                         color: Colors.white,
+//                         image: const DecorationImage(
+//                           image: AssetImage(
+//                               "assets/Ageratum conyzoidesL.png"
+//                           ),
+//                           fit: BoxFit.cover,
+//                         ),
+//                       ),
+//                     );
+//                   },
+//                 ),
+//
+//                 Text("Selamat datang 2"),
+//               ],
+//             ),
+//           ),
+//           SizedBox(height: 20,),
+//           Container(
+//             margin: const EdgeInsets.only(left: 20, right: 20),
+//             child: Row(
+//               children: [
+//                 AppLArgeText(text: "Explore more", size: 22,)
+//               ],
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
+//
+// class CircleTabIndicator extends Decoration{
+//   final Color color;
+//   double radius;
+//   CircleTabIndicator({this.color, this.radius});
+//   @override
+//   BoxPainter createBoxPainter([VoidCallback onChanged]) {
+//     // TODO: implement createBoxPainter
+//     return _CirclePainter (color:color, radius:radius);
+//   }
+//
+//
+// }
+// class _CirclePainter extends BoxPainter{
+//   final Color color;
+//   double radius;
+//   _CirclePainter({this.color, this.radius});
+//
+//   @override
+//   void paint(Canvas canvas, Offset offset, ImageConfiguration configuration) {
+//     Paint _paint = Paint();
+//     _paint.color=color;
+//     _paint.isAntiAlias=true;
+//     final Offset circleOffset = Offset(
+//         configuration.size.width/2 - radius/2,
+//         configuration.size.height-radius);
+//     canvas.drawCircle(offset+circleOffset, radius, _paint);
+//     // TODO: implement paint
+//   }
+//
+// }

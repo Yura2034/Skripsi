@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "284244647388",
+    "project_id": "fir-getx-app-d7842",
+    "storage_bucket": "fir-getx-app-d7842.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:284244647388:android:338b75ba5d2b796e500319",
+        "android_client_info": {
+          "package_name": "com.example.sekripsi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "284244647388-388fsrm60fj079jugk78dsh42d1g4frp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAogFkAYWouEw3d0xgVHwpJAxV3NfcfQ4M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "284244647388-388fsrm60fj079jugk78dsh42d1g4frp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
