@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tflite/tflite.dart';
 import 'package:flutter/material.dart';
+import 'package:sekripsi/MenuBaar/Home.dart';
 
 class camera extends StatefulWidget {
    const camera ({Key key}) : super(key: key);
@@ -34,7 +35,8 @@ class _cameraState extends State<camera> {
       numResults: 2,
       threshold: 0.5,
       imageMean: 127.5,
-      imageStd: 127.5,);
+      imageStd: 127.5,
+        asynch: true);
     setState(() {
       _output = output;
       _loading =false;
@@ -45,7 +47,9 @@ class _cameraState extends State<camera> {
   loadModel() async{
     await Tflite.loadModel(
         model: 'assets/model_unquant.tflite',
-        labels: 'assets/labels.txt');
+        labels: 'assets/labels.txt',
+        isAsset :true,);
+
   }
 
   @override

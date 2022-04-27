@@ -6,6 +6,7 @@ import'package:sekripsi/MenuBaar/Home.dart';
 import 'package:sekripsi/MenuBaar/myplatform.dart';
 
 
+
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);
 
@@ -242,7 +243,8 @@ class Detail extends StatelessWidget {
 
           Bagiannama(nama: nama,),
         Keterangan(NamaUmum: NamaUmum, Famili: Famili, PanjangDaun: PanjangDaun,Manfaat: Manfaat,),
-       TTSplugin( Manfaat: Manfaat),
+        TTSPlay(manfaatText: Manfaat,),
+
           //
         ],
       ),
@@ -317,147 +319,109 @@ const Keterangan({Key key, this.NamaUmum, this.Famili, this.PanjangDaun, this.Ma
   }
 }
 
-class TTSplugin extends StatefulWidget {
-  final String Manfaat;
+class TTSPlay extends StatefulWidget {
 
-  const TTSplugin({Key key, this.Manfaat}) : super(key: key);
+  TTSPlay({this.manfaatText});
+
+  final manfaatText;
+
   @override
-  State<TTSplugin> createState() => _TTSpluginState();
-
+  State<TTSPlay> createState() => _TTSPlayState();
 }
-class _TTSpluginState extends State<TTSplugin> {
-  String Manfaat ;
 
+class _TTSPlayState extends State<TTSPlay> {
+
+  String manfaatText;
+  FlutterTts flutterTts;
   bool isPlaying = false;
-  FlutterTts _flutterTts;
+
+
 
   @override
-  void iniState() {
+  void initState()  {
+    // TODO: implement initState
     super.initState();
-    initializeTts();
+    manfaatText = widget.manfaatText;
+    initTts();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    _flutterTts.stop();
-  }
+  initTts()  {
+    flutterTts = FlutterTts();
 
-  initializeTts() {
-    _flutterTts = FlutterTts();
     if (PlatformUtil.myPlatform() == MyPlatform.ANDROID) {
-      _flutterTts.ttsInitHandler(() {
+      flutterTts.ttsInitHandler(() {
         setTtsLanguage();
       });
     } else if (PlatformUtil.myPlatform() == MyPlatform.IOS) {
       setTtsLanguage();
-    }else if (PlatformUtil.myPlatform() == MyPlatform.WEB) {
     }
 
-    _flutterTts.setStartHandler(() {
+    flutterTts.setStartHandler(() {
       setState(() {
+        print('playing');
         isPlaying = true;
       });
     });
 
-    _flutterTts.setCompletionHandler(() {
+    flutterTts.setCompletionHandler(() {
       setState(() {
+        print('complete');
         isPlaying = false;
       });
     });
 
-    _flutterTts.setErrorHandler((err) {
+    flutterTts.setErrorHandler((message) {
       setState(() {
-        print("error occurred: " + err);
+        print('error: $message');
         isPlaying = false;
       });
     });
-  }
-  void setTtsLanguage() async {
-    await _flutterTts.setLanguage("en-US");
+
+
   }
 
-  void speechSettings1() {
-    _flutterTts.setVoice("en-us-x-sfg#male_1-local");
-    _flutterTts.setPitch(1.5);
-    _flutterTts.setSpeechRate(.9);
+
+  Future setTtsLanguage() async {
+    await flutterTts.setLanguage("id-ID");
   }
 
-  void speechSettings2() {
-    _flutterTts.setVoice("en-us-x-sfg#male_2-local");
-    _flutterTts.setPitch(1);
-    _flutterTts.setSpeechRate(0.5);
-  }
-
-  Future _speak(String text) async {
-    if (text != null && text.isNotEmpty) {
-      var result = await _flutterTts.speak(text);
-      if (result == 1) {
+  Future _speak() async {
+    if (manfaatText != null && manfaatText.isNotEmpty) {
+      var result = await flutterTts.speak(manfaatText);
+      if (result == 1)
         setState(() {
           isPlaying = true;
         });
-      }
     }
   }
-
   Future _stop() async {
-    var result = await _flutterTts.stop();
-    if (result == 1) {
+    var result = await flutterTts.stop();
+    if (result == 1)
       setState(() {
         isPlaying = false;
       });
-    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Center(
       child: Column(
         children: [
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text(Manfaat),
-          ),
-          playButton(context),
+          // Text(manfaatText),
+          SizedBox(height: 20.0,),
+          TextButton(
+            onPressed: () {
+              _speak();
+            },
+            child: Icon(Icons.mic_none, size: 60, color: Colors.green,),
+          )
         ],
-      ),
-    );
-  }
-  Widget playButton(BuildContext context) {
-    return Container(
-      child: Stack(
-        children: <Widget>[
-          Container(
-            padding:
-            const EdgeInsets.symmetric(vertical: 5.0, horizontal: 16.0),
-            margin: const EdgeInsets.only(
-                top: 30, left: 30.0, right: 30.0, bottom: 20.0),
-            child: FlatButton(
-              onPressed: () {
-                //fetch another image
-                setState(() {
-                  //speechSettings1();
-                  isPlaying ? _stop() : _speak(Manfaat);
-                });
-              },
-              child: isPlaying
-                  ? Icon(
-                Icons.stop,
-                size: 60,
-                color: Colors.red,
-              )
-                  : Icon(
-                Icons.play_arrow,
-                size: 60,
-                color: Colors.green,
-              ),
-            ),
-          ),
-        ],
-      ),
+      )
     );
   }
 }
+
+
 
 // child: const Card(
 // child: Padding(
